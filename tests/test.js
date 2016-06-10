@@ -3,6 +3,34 @@
 const should = require('should');
 const parseGpx = require('../');
 const TrackPoint = require('../src/TrackPoint');
+const parseTrack = require('../src/parseTrack');
+
+const fs = require('fs');
+const xml2js = require('xml2js');
+
+describe('TrackPoint', () => {
+    it('should be constructable!', () => {
+        let tp = new TrackPoint(1,2,3,"2016-06-09T15:59:45.000Z");
+
+        tp.should.have.property('latitude');
+        tp.should.have.property('longitude');
+        tp.should.have.property('timestamp');
+        tp.should.have.property('elevation');
+    });
+})
+
+describe('parseTrack', () => {
+    it('should parse gpx track', () => {
+        fs.readFile(__dirname + '/test.gpx','utf8', (err, data) => {
+            let parser = new xml2js.Parser();
+            parser.parseString(data, (err, xml) => {
+                let result = parseTrack(xml.gpx.trk);
+
+                result[0].should.be.instanceOf(TrackPoint);
+            });
+        });
+    });
+});
 
 describe('parse gpx', () => {
     it('return an array', () => {
@@ -10,7 +38,6 @@ describe('parse gpx', () => {
             data.should.be.Array();
         });
     });
-
 
     it('array should contain TrackPoints', () => {
         parseGpx('test.gpx').then(data => {
@@ -42,5 +69,4 @@ describe('parse gpx', () => {
             err.errno.should.be.equal(-2);
         });
     });
-
 });
