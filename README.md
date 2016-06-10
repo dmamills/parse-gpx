@@ -1,6 +1,6 @@
 # parse gpx
 
-[![codecov.io](https://codecov.io/github/dmamills/bones/coverage.svg?branch=master)](https://codecov.io/github/dmamills/bones?branch=master) [![Build Status](https://secure.travis-ci.org/dmamills/bones.png)](http://travis-ci.org/dmamills/bones)
+[![codecov.io](https://codecov.io/github/dmamills/parse-gpx/coverage.svg?branch=master)](https://codecov.io/github/dmamills/parse-gpx?branch=master) [![Build Status](https://secure.travis-ci.org/dmamills/parse-gpx.png)](http://travis-ci.org/dmamills/parse-gpx)
 
 Parses gpx files into json for data processing, for..................reasons.
 
@@ -8,7 +8,7 @@ Parses gpx files into json for data processing, for..................reasons.
 
 The gpx file will be converted to an Array of `TrackPoint` objects. Containing the latitude, longitude, elevation, and a timestamp.
 
-```
+```javascript
 const parseGpx = require('parse-gpx');
 
 let file = './path/to/some.gpx';
@@ -26,3 +26,5 @@ npm run coverage
 ```
 
 #license
+
+> do wutever u want whenever u want
