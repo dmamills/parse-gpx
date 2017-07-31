@@ -25,6 +25,6 @@ npm test
 npm run coverage
 ```
 
-#license
+# license
 
 > do wutever u want whenever u want
