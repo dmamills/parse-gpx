@@ -1,6 +1,6 @@
 {
   "name": "gpx-parse",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "parse gpx into json",
   "main": "index.js",
   "scripts": {

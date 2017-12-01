@@ -16,6 +16,15 @@ describe('TrackPoint', () => {
         tp.should.have.property('longitude');
         tp.should.have.property('timestamp');
         tp.should.have.property('elevation');
+        tp.should.have.property('heartrate');
+        tp.should.have.property('cadence');
+
+        tp = new TrackPoint(1,2,3,"2016-06-09T15:59:45.000Z", 160);
+        tp.heartrate.should.equal(160);
+
+        tp = new TrackPoint(1,2,3,"2016-06-09T15:59:45.000Z", null, 180);
+        tp.cadence.should.equal(180);
+
     });
 })
 
@@ -34,13 +43,13 @@ describe('parseTrack', () => {
 
 describe('parse gpx', () => {
     it('return an array', () => {
-        parseGpx('test.gpx').then(data => {
+        parseGpx(__dirname + '/test.gpx').then(data => {
             data.should.be.Array();
         });
     });
 
     it('array should contain TrackPoints', () => {
-        parseGpx('test.gpx').then(data => {
+        parseGpx(__dirname + '/test.gpx').then(data => {
             data.forEach(t => {
                 t.should.be.instanceOf(TrackPoint);
             });
@@ -48,7 +57,7 @@ describe('parse gpx', () => {
     });
 
     it('trackpoints should have all expected attributes', () => {
-        parseGpx('test.gpx').then(data => {
+        parseGpx(__dirname + '/test.gpx').then(data => {
             let tp = data[0];
 
             tp.should.have.property('latitude');
@@ -57,6 +66,22 @@ describe('parse gpx', () => {
             tp.should.have.property('elevation');
         });
     });
+
+    it('should have heartrate if found', () => {
+        parseGpx(__dirname + '/heartrate.gpx').then(data => {
+            let tp = data[0];
+            tp.heartrate.should.equal('114');
+        });
+    });
+
+    it('should have cadence if found', () => {
+        parseGpx(__dirname + '/cadence.gpx').then(data => {
+            let tp = data[0];
+            tp.cadence.should.equal('99');
+        });
+    });
+
+
     it('should return an error when unable to parse xml', () => {
         parseGpx(__dirname + '/invalid.gpx').then(()=>{}, err => {
             err.should.be.instanceOf(Error);
