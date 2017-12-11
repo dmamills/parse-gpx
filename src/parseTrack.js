@@ -24,7 +24,6 @@ const parseTrack = track =>  {
               hr = extension[k2][0];
             }
             if(k2.indexOf('cadence') > -1) {
-              console.log('cadence found');
               cadence = extension[k2][0];
             }
           }
