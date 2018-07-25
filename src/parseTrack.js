@@ -7,7 +7,7 @@ const parseTrack = track =>  {
   return track.map(t => {
     var elevation = t.ele[0],
         lat = t['$'].lat,
-        lng = t['$'].lng,
+        lng = (t['$'].lng || t['$'].lon),
         timestamp = t.time[0],
         hr,
         cadence;

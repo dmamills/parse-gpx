@@ -67,6 +67,14 @@ describe('parse gpx', () => {
         });
     });
 
+    it('trackpoints should have longitude when attribute named lon', () => {
+        parseGpx(__dirname + '/test-lon.gpx').then(data => {
+            let tp = data[0];
+            tp.should.have.property('longitude');
+        });
+    });
+
+
     it('should have heartrate if found', () => {
         parseGpx(__dirname + '/heartrate.gpx').then(data => {
             let tp = data[0];
