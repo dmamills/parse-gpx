@@ -1,6 +1,6 @@
 {
   "name": "parse-gpx",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "parse gpx into json",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "author": "dmamills",
   "dependencies": {
-    "xml2js": "^0.4.16"
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
