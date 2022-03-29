@@ -1,5 +1,3 @@
-"use strict";
-
 const xml2js = require('xml2js');
 const parseTrack = require('./src/parseTrack');
 

@@ -1,12 +1,9 @@
-"use strict";
+require('should');
 
-const should = require('should');
 const parseGpx = require('../');
 const TrackPoint = require('../src/TrackPoint');
-const parseTrack = require('../src/parseTrack');
-
+const Track = require('../src/Track');
 const fs = require('fs');
-const xml2js = require('xml2js');
 
 describe('TrackPoint', () => {
   it('should be constructable!', () => {
@@ -26,46 +23,36 @@ describe('TrackPoint', () => {
 
 const testStr = fs.readFileSync(`${__dirname}/test.gpx`);
 
-describe('parseTrack', () => {
-  it('should parse gpx track', () => {
-    let parser = new xml2js.Parser();
-    parser.parseString(testStr, (err, xml) => {
-      let result = parseTrack(xml.gpx.trk);
-      result[0].should.be.instanceOf(TrackPoint);
-    });
-  });
-});
-
 describe('parse gpx', () => {
-  it('return an array', async () => {
-    const data = await parseGpx(testStr);
-    data.should.be.Array();
+  it('return an instance of Track', async () => {
+    const track = (await parseGpx(testStr));
+    track.should.be.instanceOf(Track)
   });
 
   it('array should contain TrackPoints', async () => {
-    const data = await parseGpx(testStr);
+    const data = (await parseGpx(testStr)).trackPoints;
     data.forEach(t => t.should.be.instanceOf(TrackPoint));
   });
 
   it('trackpoints should have longitude when attribute named lon', async () => {
     const testLonStr = fs.readFileSync(`${__dirname}/test-lon.gpx`);
-    const data = await parseGpx(testLonStr);
+    const data = (await parseGpx(testLonStr)).trackPoints;
     let tp = data[0];
     tp.should.have.property('longitude');
   });
 
   it('should have heartrate if found', async () => {
     const heartrateStr = fs.readFileSync(`${__dirname}/heartrate.gpx`);
-    const data = await parseGpx(heartrateStr);
+    const data = (await parseGpx(heartrateStr)).trackPoints;
     let tp = data[0];
-    tp.heartrate.should.equal('114');
+    tp.heartrate.should.equal(114);
   });
 
   it('should have cadence if found', async () => {
     const cadenceStr = fs.readFileSync(`${__dirname}/cadence.gpx`);
-    const data = await parseGpx(cadenceStr);
+    const data = (await parseGpx(cadenceStr)).trackPoints;
     let tp = data[0];
-    tp.cadence.should.equal('99');
+    tp.cadence.should.equal(99);
   });
 
   it('should return an error when unable to parse xml', async () => {
@@ -75,5 +62,11 @@ describe('parse gpx', () => {
     } catch (err) {
       err.should.be.instanceOf(Error);
     };
+  });
+
+  it('should calculate total distance', async () => {
+    const testLonStr = fs.readFileSync(`${__dirname}/test-lon.gpx`);
+    const track = await parseGpx(testLonStr);
+    parseInt(track.totalDistance()).should.equal(19287);
   });
 });

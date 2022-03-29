@@ -1,9 +1,9 @@
-"use strict";
 const TrackPoint = require('./TrackPoint');
+const Track = require('./Track');
 
 const parseTrack = track =>  {
   track = track[0].trkseg[0].trkpt;
-  return track.map(t => {
+  const trackPoints = track.map(t => {
   var elevation = t.ele[0],
     lat = t['$'].lat,
     lng = (t['$'].lng || t['$'].lon),
@@ -41,6 +41,8 @@ const parseTrack = track =>  {
 
     return new TrackPoint(elevation, lat, lng, timestamp, hr, cadence);
   });
+
+  return new Track(trackPoints);
 };
 
 module.exports = parseTrack;
