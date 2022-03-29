@@ -1,5 +1,4 @@
 const haversine = require('haversine-distance');
-const moment = require('moment')
 
 class TrackPoint {
     constructor(el, lat, lng, time, heartrate, cadence) {

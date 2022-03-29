@@ -29,6 +29,7 @@ parseGpx(file).then(track => {
      }
     */
     console.log(track.trackPoints[0]);
+});
 ```
 
 # dev
